@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+        h1 {
+            font-family: monospace;
+            font-variant: small-caps;
+            text-align: left;
+            margin: 1%;
+        }
+        p {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            display: inline-flex;
+            flex: auto;
+            margin: 1%;
+
+        }        input.question-0 {
+            display: inline-flex;
+            flex: auto;
+        }
+
+        .question-0 {
+            margin: 0%;
+            display: flex;
+
+        }
+        #score{
+            text-align: center;
+        }
+        input:checked {
+            border: 6px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Find Friends with Similar Interests!</h1>
+            <h3>Fill out a quick survey</h3>
+            <hr>
+            <a href="/"><button class="btn btn-danger btn-lg"><span class="fa fa-eye"></span> Home</button></a>
+        </div>
+        <div class="row" id=>
+
+            <div class="col-12">
+
+                <div class="card" id="score">
+                    <div class="card-header">
+                        <h3><strong>Contact information</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" role="form">
+
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="role">Image Link</label>
+                                <input type="text" class="form-control" id="pn">
+                            </div>
+                            <div class="selection"></div>
+                        </form>
+                        <br>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span
+                                    class="fa fa-fire"></span> Book it!</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script type="text/javascript">
+            var questions = [
+                {
+                    prompt: "I like dogs",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I like rollercoasters",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {    prompt: "I enjoy the outdoors",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I enjoy beer",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I enjoy basketball",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I enjoy coding",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I enjoy video games",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I enjoy rap music",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I enjoy fried chicken",
+                    choices: ["1", "2", "3", "4", "5"]
+                },
+                {
+                    prompt: "I enjoy mexican food",
+                    choices: ["1", "2", "3", "4", "5"]
+                }
+            ]
+            var total = [];
+            score = [];
+
+            for (var i = 0; i < questions.length; i++) {
+                var questionshtml = "<h1>" + questions[i].prompt + "</h1>";
+                var choiceshtml =
+                    `<input type='radio' class="question-0" value= 1 name="${i}"><p>${questions[i].choices[0]}</p>
+        <input type='radio' class="question-0" value= 2 name="${i}"><p>${questions[i].choices[1]}</p>
+        <input type='radio' class="question-0" value= 3 name="${i}"><p>${questions[i].choices[2]}</p>
+        <input type='radio' class="question-0" value= 4 name="${i}"><p>${questions[i].choices[3]}</p>
+        <input type='radio' class="question-0" value= 5 name="${i}"><p>${questions[i].choices[4]}</p>\n`;
+                $(".selection").append(questionshtml + choiceshtml)
+            }
+            $("#add-btn").on("click", function (event) {
+                event.preventDefault();
+
+                for (i = 0; i < questions.length; i++) {
+                    var userpick = $(`input[name="${i}"]:checked`).val()
+                    usernum = parseInt(userpick);
+                    total.push(usernum);
+                };
+               
+                score = parseInt(total.reduce(function (accumulator, currentValue, currentIndex, array) {
+                    return accumulator + currentValue
+                }))
+                var newUser = {
+                    name: $("#name").val().trim(),
+                    image: $("#pn").val().trim(),
+                    record: total,
+                    score: score
+                }
+                $.post("/api/friends", newUser)
+                    .then(function (data) {
+                        console.log(data);
+                        alert("Sumbitted!");
+                        $("#score").append(data.name,"<img src=" + data.image + ">")
+                        
+                    });
+                $("#name").val("");
+                $("#pn").val("");
+                $(".selection").hide();
+                
+
+                })
+
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+h1 {
+    font-family: monospace;
+    font-variant: small-caps;
+    text-align: left;
+    margin: 5%;
+}
+p {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline-flex;
+    flex: auto;
+    margin: 5%;
+
+}
+input.question-0{
+    display: inline-flex;
+    flex: auto;
+}
+.question-0{
+    margin: auto;
+    display: flex;
+    
+}
+input:checked {
+    border: 6px solid black;
+  }

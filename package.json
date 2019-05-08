@@ -1,0 +1,21 @@
+{
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/todd2595/express.git"
+  },
+  "keywords": [
+    "friend",
+    "finder"
+  ],
+  "author": "todd archey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/todd2595/express/issues"
+  },
+  "homepage": "https://github.com/todd2595/express#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.19.0",
+    "path": "^0.12.7"
+  }
+}
